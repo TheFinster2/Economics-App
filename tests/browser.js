@@ -81,7 +81,17 @@ async function dismissModal(page) {
 
 async function goto(page, hash) {
   await page.evaluate((h) => { window.ECON.UI.go(h); }, hash);
-  await page.waitForTimeout(220);
+  /* Wait for the view to actually have content rather than for a fixed
+     interval. A flat timeout made the first navigation of a run flaky —
+     the render can land a few milliseconds late on a cold page, and a
+     suite that fails intermittently teaches you to ignore it. Screens that
+     legitimately render nothing (there are none today) still fall through
+     after the timeout, so this cannot hide a real regression. */
+  await page.waitForFunction(() => {
+    const v = document.querySelector("#view");
+    return v && v.children.length > 0;
+  }, null, { timeout: 4000 }).catch(() => {});
+  await page.waitForTimeout(180);
 }
 
 /* Horizontal overflow check — H6 in the addendum. */

@@ -56,6 +56,37 @@ matcher.
 | Flashcards | Leitner spaced repetition, five boxes |
 | Arcade | Three games you rent with credits. They pay nothing — deliberately |
 
+## The shop, and why it is still honest
+
+The shop sells power-ups: Narrow the field, Pass, Extension, Buffer stock,
+Research note, Multiplier and Second wind. It also sells avatars and themes,
+and it lets you switch difficulty between Standard, Hard and Nightmare.
+
+The original brief said the shop must sell nothing that helps in a scored
+run. That has been relaxed deliberately — a currency you can only spend on
+wallpaper stops being a reason to play — and replaced with a narrower rule
+that is actually testable:
+
+> **A multiplier multiplies. It never adds, and it never applies a floor.**
+
+So a run that earned nothing is still worth nothing after a ×2 Multiplier on
+Nightmare difficulty. `UI.award` clamps every multiplier to `S.MAX_MULTIPLIER`,
+so a typo in a data file cannot break the economy either, and nothing on the
+shop screen calls `UI.award` at all — credits remain a pure sink.
+
+`tests/exploit.js` now replays its entire bad-bot sweep a second time with
+every power-up stocked to 99, the Multiplier armed and Nightmare selected,
+and asserts the bot still earns **0 XP**. Two new fault-injection modes
+(`boostadd`, `freepower`) prove that assertion is live: one makes the
+multiplier add a flat bonus instead of multiplying, the other makes power-ups
+free, and `prove.js` fails if either goes uncaught.
+
+The other effects are all convenience rather than credit. Buffer stock saves
+a *streak*, not a mark — the answer is still recorded as wrong and still earns
+nothing. Pass skips a question without counting it either way. Research note
+shows the topic and misconception, and unlike the in-app reference it does not
+trigger the 25% penalty, which is what you are paying for.
+
 ## The calculation engine
 
 `js/core/econcalc.js` is where the app can be *certain* it is right, and it
@@ -95,15 +126,15 @@ real Chromium through Playwright.
 | `tools` | The tray docks, the keypad never focuses the display, the reference latches and is priced |
 | `smoke` | Every screen renders and offers something interactive at 360px and 390px |
 | `honest` | A student who knows the economics earns real XP, at broadly consistent rates across modes |
-| `exploit` | **A bot answering as fast and as badly as possible earns 0 XP** |
+| `exploit` | **A bot answering as fast and as badly as possible earns 0 XP** — including with a full power-up inventory and a ×4 multiplier |
 | `offline` | Install, cut the network, and every screen still works |
 | `update` | A new build reaches an already-installed device |
 | `prove` | Runs every suite once clean and once per injected fault, and fails if any fault goes uncaught |
 
 `prove.js` is the one worth understanding. A test that passes proves very
 little; a test that *fails when its fix is removed* proves it is actually
-testing something. Twenty fault modes are injected and all twenty must be
-caught.
+testing something. Twenty-two fault modes are injected and all twenty-two
+must be caught.
 
 ```
 node tests/prove.js
@@ -116,7 +147,7 @@ not engineering — every format is established and validated.
 
 | | shipped | target |
 |---|---|---|
-| Multiple choice | 71 | 1000 |
+| Multiple choice | 108 | 1000 |
 | Short answer with criteria | 6 | 150 |
 | Flashcards | 113 | 400 |
 | Diagrams | 12 | 12 ✓ |
@@ -168,6 +199,19 @@ vanishes offline.
 must match — `tests/update.js` fails if they drift. If you change a cached
 file and do not bump it, installed devices keep serving the old copy forever
 and you will spend a week convinced the bug is in the code.
+
+## Progression
+
+Beyond XP and levels there are three layers, all borrowed from the chemistry
+app in this account and adapted:
+
+- **Level titles** — sixty of them, from First Principles to Equilibrium
+  Legend, shown on Play and You.
+- **Avatars** — twenty-two, most gated behind a level so there is still
+  something to reach for at level 40. Purely cosmetic.
+- **Mastery per topic** — coverage × accuracy, tiered Bronze through Diamond
+  on the You screen. It cannot be bought, and hiding content with a coverage
+  pack does not move it, because it measures against `Bank.all()`.
 
 ## Dev panel
 

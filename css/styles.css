@@ -428,3 +428,45 @@ code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92em; 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ── power-up bar (js/modes/common.js) ─────────────────────────────────
+   Sits under the question. Scrolls horizontally rather than wrapping, so a
+   360px screen never has the answer options pushed below the fold. */
+.powerbar{
+  display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+  padding:2px 0 8px; margin:0 0 6px; scrollbar-width:none;
+}
+.powerbar::-webkit-scrollbar{ display:none }
+.pu{
+  flex:0 0 auto; display:flex; align-items:center; gap:6px;
+  min-height:38px; padding:6px 10px; border-radius:999px;
+  background:var(--card-2); color:var(--ink-2);
+  border:1px solid var(--line-soft); font:inherit; font-size:12px;
+  cursor:pointer;
+}
+.pu:disabled{ opacity:.38; cursor:default }
+.pu:not(:disabled):active{ transform:scale(.96) }
+.pu .pu-name{ white-space:nowrap }
+.pu .pu-n{ color:var(--ink-3); font-variant-numeric:tabular-nums }
+
+/* ── avatar grid (Shop → Avatars) ──────────────────────────────────── */
+.av-grid{
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(96px, 1fr));
+  gap:8px;
+}
+.av{
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:10px 6px; border-radius:var(--r);
+  background:var(--card); border:1px solid var(--line-soft);
+  font:inherit; color:var(--ink-2); cursor:pointer; text-align:center;
+}
+.av.on{ border-color:var(--accent); background:var(--card-2) }
+.av:disabled{ opacity:.45; cursor:default }
+.av .av-e{ font-size:26px; line-height:1.1 }
+.av .av-n{ font-size:11px; color:var(--ink-2) }
+.av .av-c{ font-size:10px; color:var(--ink-3) }
+
+/* ── mastery row (You screen) ──────────────────────────────────────── */
+.mst{ display:flex; align-items:center; gap:8px }
+.mst-bar{ flex:1; height:6px; border-radius:99px; background:var(--card-3); overflow:hidden }
+.mst-bar > i{ display:block; height:100%; background:var(--accent) }

@@ -46,6 +46,10 @@
       ECON.Bank.all("mcq").forEach(function (q) { S.data.seen[q.id] = { n: 3, wrong: 0, last: Date.now() }; });
       ECON.Bank.diagrams().forEach(function (d) { S.data.diagramSeen[d.id] = Date.now(); });
       S.data.bests.calcSolved = 120;
+      Object.keys(S.data.inventory).forEach(function (k) { S.data.inventory[k] = 25; });
+      (ECON.DATA.shop.avatars || []).forEach(function (a) {
+        if (S.data.owned.avatars.indexOf(a.emoji) < 0) S.data.owned.avatars.push(a.emoji);
+      });
       S.data.bests.shiftsSolved = 60;
       S.data.bests.survival = 42;
       S.data.runs = 250;

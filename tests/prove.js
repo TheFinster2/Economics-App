@@ -16,7 +16,7 @@ const path = require("path");
 const SUITES = [
   { file: "validate.js", modes: ["why", "distractors", "partid", "hotspot", "dupopt", "emptybin", "swbuild", "lengthbias"] },
   { file: "calc.js", modes: ["routeb", "collide", "shiftrule"] },
-  { file: "exploit.js",  modes: ["floor", "shortspam", "cardspam", "arcadepays", "reflatch"] }
+  { file: "exploit.js",  modes: ["floor", "shortspam", "cardspam", "arcadepays", "reflatch", "boostadd", "freepower"] }
 ];
 
 let failures = 0;

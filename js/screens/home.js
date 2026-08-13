@@ -19,6 +19,7 @@
         ]),
         U.el("div", { style:"text-align:right" }, [
           U.el("div", { style:"font-weight:800;font-size:18px;color:var(--accent)", text:"Lv " + lv.level }),
+          U.el("div", { class:"muted2", style:"font-weight:700", text: S.levelTitle(lv.level) }),
           U.el("div", { class:"muted2", text: lv.need ? U.fmtInt(lv.need - lv.into) + " XP to go" : "max level" })
         ])
       ]),
@@ -36,6 +37,17 @@
     if (missed) nudges.appendChild(U.el("button", { class:"btn btn-sm grow", onclick: function () { UI.go("/play/rehab"); } },
       missed + " to rehab"));
     if (nudges.childNodes.length) view.appendChild(nudges);
+
+    /* Difficulty is visible from the Play screen, because a student who set
+       Nightmare a week ago and forgot should not be quietly wondering why
+       every clock is short. */
+    var diff = S.difficulty();
+    if (diff.id !== "standard") {
+      view.appendChild(U.el("div", { class:"card card-tight small" }, [
+        U.el("b", { text: diff.icon + "  " + diff.name + " difficulty" }),
+        U.el("div", { class:"muted2", text: diff.desc + "  Change it in Shop → Power-ups." })
+      ]));
+    }
 
     var groups = U.groupBy(R.MODES, function (m) { return m.group || "Other"; });
     ["Core", "Numbers", "Challenge", "Other"].forEach(function (g) {

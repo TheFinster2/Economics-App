@@ -47,12 +47,18 @@
     var state = {
       i: 0, correct: 0, answered: 0, counted: 0, streak: 0, bestStreak: 0,
       lives: cfg.lives || null, xp: 0, review: [], done: false,
-      startedAt: Date.now(), shownAt: 0
+      startedAt: Date.now(), shownAt: 0,
+      boosted: false, shieldArmed: false, skipped: 0, reviveUsed: false
     };
 
+    /* Difficulty shortens every clock. It is applied here rather than in each
+       mode so a new mode cannot forget to honour it. */
+    var diff = S.difficulty();
+    var runTimeMs = cfg.timeMs ? Math.round(cfg.timeMs * (diff.timeScale || 1)) : null;
+
     var timer = null;
-    if (cfg.timeMs) {
-      state.endsAt = Date.now() + cfg.timeMs;
+    if (runTimeMs) {
+      state.endsAt = Date.now() + runTimeMs;
       timer = setInterval(function () {
         if (state.done) return;
         if (Date.now() >= state.endsAt) finish("Time");
@@ -61,6 +67,7 @@
     }
 
     if (ECON.Tools) ECON.Tools.attach(cfg.id);
+    var powerBar = buildPowerBar();
 
     next();
 
@@ -78,8 +85,9 @@
       state.shownAt = Date.now();
 
       var host = shell.clear();
+      if (powerBar) { host.appendChild(powerBar.node); powerBar.refresh(); }
       paintMeters();
-      shell.setProgress(cfg.limit ? state.i / cfg.limit : (cfg.timeMs ? 1 - (state.endsAt - Date.now()) / cfg.timeMs : 0));
+      shell.setProgress(cfg.limit ? state.i / cfg.limit : (runTimeMs ? 1 - (state.endsAt - Date.now()) / runTimeMs : 0));
 
       UI.renderMCQ(host, q, function (ok) {
         // MIN_READ_MS: answering faster than a human can read earns nothing
@@ -99,9 +107,22 @@
             var mult = cfg.streakBonus ? S.streakMult(state.streak) : 1;
             state.xp += S.XP_PER_CORRECT * (q.diff || 1) * mult;
           }
+        } else if (state.shieldArmed && state.streak >= 3) {
+          /* Buffer stock absorbs the hit. It protects the STREAK only — the
+             answer is still recorded as wrong and still earns nothing, so a
+             shield can never manufacture XP. */
+          state.shieldArmed = false;
+          UI.toast("🛡️ Buffer stock absorbed that — streak saved", "good");
         } else {
           state.streak = 0;
-          if (state.lives !== null) state.lives--;
+          if (state.lives !== null) {
+            state.lives--;
+            if (state.lives <= 0 && !state.reviveUsed && S.powerupCount("revive") > 0 && S.usePowerup("revive")) {
+              state.reviveUsed = true;
+              state.lives = 1;
+              UI.toast("💉 Second wind — one life restored", "good");
+            }
+          }
         }
 
         state.review.push({
@@ -124,10 +145,97 @@
       });
     }
 
+    /* ── power-up bar ──────────────────────────────────────────────────
+       Every effect here changes how the run FEELS. None of them adds XP
+       directly, and the one that touches XP multiplies rather than adds. */
+    function buildPowerBar() {
+      var defs = (ECON.DATA.shop && ECON.DATA.shop.powerups) || [];
+      var locked = diff.lock || [];
+      var usable = defs.filter(function (p) {
+        if (locked.indexOf(p.id) >= 0) return false;
+        if (p.id === "freeze" && !runTimeMs) return false;      // nothing to extend
+        if (p.id === "revive" && state.lives === null) return false;  // nothing to restore
+        if (p.id === "shield" && !cfg.streakBonus) return false;      // no streak at stake
+        return true;
+      });
+      if (!usable.length) return null;
+
+      var node = U.el("div", { class: "powerbar" });
+      var btns = {};
+      usable.forEach(function (p) {
+        var count = U.el("span", { class: "pu-n", text: "×0" });
+        var b = U.el("button", { class: "pu", type: "button", title: p.desc }, [
+          U.el("span", { text: p.icon }), U.el("span", { class: "pu-name", text: p.name }), count
+        ]);
+        b.addEventListener("click", function () { use(p.id); });
+        btns[p.id] = { b: b, count: count };
+        node.appendChild(b);
+      });
+
+      function refresh() {
+        usable.forEach(function (p) {
+          var n = S.powerupCount(p.id);
+          btns[p.id].count.textContent = "×" + n;
+          var dead = n <= 0 ||
+            (p.id === "double" && state.boosted) ||
+            (p.id === "shield" && state.shieldArmed) ||
+            (p.id === "revive");        // automatic; shown for information only
+          btns[p.id].b.disabled = dead;
+        });
+      }
+
+      function use(id) {
+        if (id === "revive") return;                 // fires automatically
+        if (!S.usePowerup(id)) return;               // nothing spent, nothing happens
+
+        if (id === "fifty") {
+          var q = state.current;
+          if (q) {
+            var wrong = [];
+            for (var k = 0; k < q.options.length; k++) if (k !== q.answer) wrong.push(k);
+            U.shuffle(wrong).slice(0, 2).forEach(function (k) {
+              var el = document.querySelectorAll("#view .opt")[k];
+              if (el) { el.disabled = true; el.classList.add("dim"); }
+            });
+          }
+          UI.toast("✂️ Two wrong options removed", "good");
+        }
+        if (id === "skip") {
+          state.skipped++;
+          state.i++;
+          UI.toast("⏭️ Passed — streak preserved", "good");
+          return next();
+        }
+        if (id === "freeze" && state.endsAt) {
+          state.endsAt += 20000;
+          paintMeters();
+          UI.toast("🧊 +20 seconds", "good");
+        }
+        if (id === "shield") {
+          state.shieldArmed = true;
+          UI.toast("🛡️ Buffer stock armed", "good");
+        }
+        if (id === "insight") {
+          var cq = state.current;
+          if (cq) {
+            UI.toast("🔍 " + U.moduleName(cq.mod) + " · " + (cq.topic || "") +
+                     (cq.misconception ? " — " + cq.misconception : ""), "info", 7000);
+          }
+        }
+        if (id === "double") {
+          state.boosted = true;
+          UI.toast("✨ Multiplier active — double XP for this run", "good");
+        }
+        refresh();
+      }
+
+      return { node: node, refresh: refresh };
+    }
+
     function paintMeters() {
       var items = [];
       if (cfg.limit) items.push({ text: "Q " + Math.min(state.i + 1, cfg.limit) + "/" + cfg.limit });
-      if (cfg.timeMs) {
+      if (runTimeMs) {
         var left = Math.max(0, state.endsAt - Date.now());
         items.push({ text: "⏱ " + U.fmtTime(left), hot: left < 15000 });
       }
@@ -151,6 +259,7 @@
         bonus: bonus,
         readRatio: state.answered ? state.counted / state.answered : 0,
         accuracy: state.answered ? acc : null,
+        multiplier: S.runMultiplier(state.boosted),
         mode: cfg.id,
         score: state.correct
       });
@@ -171,6 +280,11 @@
           : "+" + U.fmtInt(rec.bonus)]);
       }
       if (rec.refPenalty) rows.push(["Reference penalty", "−" + U.fmtInt(rec.refPenalty) + " XP"]);
+      if (rec.multiplier > 1) {
+        rows.push(["Multiplier", "×" + rec.multiplier.toFixed(2).replace(/\.?0+$/, "") +
+                                 "  (+" + U.fmtInt(rec.multBonus) + " XP)"]);
+      }
+      if (state.skipped) rows.push(["Passed", state.skipped + " question" + (state.skipped === 1 ? "" : "s")]);
       rows.push(["Total earned", U.fmtInt(rec.xp) + " XP  ·  " + U.fmtInt(rec.coins) + " ◉"]);
       if (cfg.extraRows) cfg.extraRows(state).forEach(function (r) { rows.push(r); });
 

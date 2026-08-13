@@ -20,9 +20,13 @@
 
     view.appendChild(U.el("div", { class:"card" }, [
       U.el("div", { class:"spread" }, [
-        U.el("div", {}, [
-          U.el("div", { style:"font-size:26px;font-weight:800;color:var(--accent)", text:"Level " + lv.level }),
-          U.el("div", { class:"muted2", text: U.fmtInt(d.xp) + " XP total" })
+        U.el("div", { class:"row", style:"align-items:center;gap:10px" }, [
+          U.el("span", { style:"font-size:34px;line-height:1", text: d.avatar || "📊" }),
+          U.el("div", {}, [
+            U.el("div", { style:"font-size:26px;font-weight:800;color:var(--accent)", text:"Level " + lv.level }),
+            U.el("div", { style:"font-weight:700", text: S.levelTitle(lv.level) }),
+            U.el("div", { class:"muted2", text: U.fmtInt(d.xp) + " XP total" })
+          ])
         ]),
         U.el("div", { style:"text-align:right" }, [
           U.el("div", { style:"font-size:20px;font-weight:800;color:var(--warn)", text:"◉ " + U.fmtInt(d.coins) }),
@@ -36,8 +40,30 @@
         text: lv.need ? U.fmtInt(lv.into) + " / " + U.fmtInt(lv.need) + " XP to level " + (lv.level + 1) : "Maximum level reached." })
     ]));
 
+    /* ── mastery ──────────────────────────────────────────────────────
+       Coverage times accuracy, per topic. Answering three questions perfectly
+       is not mastery of a topic with sixty, so both factors matter — and
+       neither can be bought in the Shop. */
+    view.appendChild(U.el("h2", { text:"Mastery by topic" }));
+    var mlist = U.el("div", { class:"list" });
+    U.MODULES.forEach(function (m) {
+      var pct = S.mastery(m.id);
+      var tier = S.masteryTier(pct) || { icon:"▪️", name:"Unranked" };
+      mlist.appendChild(U.el("div", { class:"li" }, [
+        U.el("span", { style:"font-size:18px;width:26px;text-align:center", text: tier.icon }),
+        U.el("div", { class:"grow" }, [
+          U.el("b", { text: m.id + " — " + m.name }),
+          U.el("div", { class:"mst", style:"margin-top:5px" }, [
+            U.el("div", { class:"mst-bar" }, [U.el("i", { style:"width:" + pct + "%" })]),
+            U.el("small", { style:"width:60px;text-align:right", text: tier.name })
+          ])
+        ])
+      ]));
+    });
+    view.appendChild(mlist);
+
     /* ── module coverage ── */
-    view.appendChild(U.el("h2", { text:"Coverage by module" }));
+    view.appendChild(U.el("h2", { text:"Coverage by topic" }));
     var stats = ECON.Bank.moduleStats();
     var list = U.el("div", { class:"list" });
     U.MODULES.forEach(function (m) {

@@ -209,6 +209,21 @@
       gross -= refPenalty;
     }
 
+    /* Difficulty and the Multiplier power-up. THE RULE: a multiplier
+       MULTIPLIES. It never adds a flat amount and it never applies a floor,
+       so a run that earned nothing is still worth nothing however many
+       power-ups were spent on it. That is the one property that keeps
+       "the bad bot earns 0 XP" true once the shop sells advantages, and
+       tests/exploit.js re-runs its whole sweep with a full inventory and the
+       multiplier active to prove it. S.runMultiplier clamps the value, so a
+       typo in a data file cannot break the economy either. */
+    var mult = (typeof opts.multiplier === "number")
+      ? Math.max(1, Math.min(S.MAX_MULTIPLIER, opts.multiplier))
+      : 1;
+    var preMult = gross;
+    gross = Math.round(gross * mult);
+    var multBonus = gross - preMult;
+
     var coins = (typeof opts.coins === "number") ? Math.max(0, Math.round(opts.coins))
                                                  : Math.round(gross * S.COIN_RATE);
 
@@ -232,6 +247,7 @@
     var rec = {
       t: Date.now(), mode: opts.mode || null, base: base, bonus: bonusApplied,
       bonusWithheld: bonusWithheld, refPenalty: refPenalty, xp: gross, coins: coins,
+      multiplier: mult, multBonus: multBonus,
       accuracy: acc, readRatio: readRatio
     };
     UI._awardLog.push(rec);

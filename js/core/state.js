@@ -62,7 +62,10 @@
       bestStreakDays: 0,
       achievements: {},    // achId -> unlockedAt
       coverage: {},        // packId -> true when HIDDEN
-      owned: { themes: ["ledger"], boosts: {} },
+      owned: { themes: ["ledger"], avatars: ["📊", "⚖️"], boosts: {} },
+      avatar: "📊",
+      difficulty: "standard",
+      inventory: { fifty: 1, skip: 1, freeze: 0, shield: 1, insight: 0, double: 0, revive: 0 },
       arcade: { bests: {}, ticketUntil: 0 },
       bosses: {},          // bossId -> {cleared, best}
       settings: { sound: true, haptics: true, reduceMotion: false, hintsInResponse: true },
@@ -228,6 +231,87 @@
   S.setHidden = function (packId, hidden) {
     if (hidden) S.data.coverage[packId] = true; else delete S.data.coverage[packId];
     S.saveSoon(); S.emit();
+  };
+
+  /* ── inventory ────────────────────────────────────────────────────
+     Power-ups are consumables bought with credits, which are themselves
+     earned from XP. Nothing in here creates XP, and nothing in here calls
+     UI.award — see the header of js/data/shop.js for why that matters. */
+
+  S.powerupCount = function (id) {
+    return (S.data.inventory && S.data.inventory[id]) || 0;
+  };
+
+  /* Returns true only if one was actually spent. Callers must check: a
+     power-up whose effect fires without the count going down is free. */
+  S.usePowerup = function (id) {
+    if (!S.data.inventory) S.data.inventory = {};
+    if ((S.data.inventory[id] || 0) <= 0) return false;
+    S.data.inventory[id]--;
+    S.saveSoon();
+    return true;
+  };
+
+  S.grantPowerup = function (id, n) {
+    if (!S.data.inventory) S.data.inventory = {};
+    S.data.inventory[id] = (S.data.inventory[id] || 0) + (n || 1);
+    S.saveSoon();
+  };
+
+  /* ── difficulty ──────────────────────────────────────────────────── */
+  S.difficulty = function () {
+    var list = (ECON.DATA && ECON.DATA.difficulties) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === S.data.difficulty) return list[i];
+    return list[0] || { id: "standard", name: "Standard", xp: 1, timeScale: 1, lock: [] };
+  };
+
+  /* The only multiplier the reward path will accept. Clamped hard, because a
+     multiplier is the one lever that could quietly turn a fair economy into
+     an unfair one, and a typo in a data file should not be able to do it. */
+  S.MAX_MULTIPLIER = 4;
+  S.runMultiplier = function (boostActive) {
+    var m = S.difficulty().xp || 1;
+    if (boostActive) m *= 2;
+    return Math.max(1, Math.min(S.MAX_MULTIPLIER, m));
+  };
+
+  /* ── level titles ────────────────────────────────────────────────── */
+  S.levelTitle = function (lv) {
+    var t = (ECON.DATA && ECON.DATA.levelTitles) || [];
+    if (!t.length) return "";
+    return t[Math.min(t.length - 1, Math.max(0, (lv || 1) - 1))];
+  };
+
+  /* ── per-topic mastery ───────────────────────────────────────────────
+     A percentage derived from what has actually been answered, so it cannot
+     be bought and does not move when a coverage pack hides content. */
+  S.mastery = function (modId) {
+    var seen = 0, correct = 0;
+    var d = S.data.seen;
+    var bank = ECON.Bank ? ECON.Bank.all("mcq") : [];
+    for (var i = 0; i < bank.length; i++) {
+      var q = bank[i];
+      if (q.mod !== modId) continue;
+      var rec = d[q.id];
+      if (!rec) continue;
+      seen++;
+      if ((rec.n || 0) > (rec.wrong || 0)) correct++;
+    }
+    var total = 0;
+    for (var j = 0; j < bank.length; j++) if (bank[j].mod === modId) total++;
+    if (!total) return 0;
+    // Coverage of the topic and accuracy on it, weighted evenly. Answering
+    // three questions perfectly is not mastery of a topic with sixty.
+    var coverage = seen / total;
+    var accuracy = seen ? correct / seen : 0;
+    return Math.round(coverage * accuracy * 100);
+  };
+
+  S.masteryTier = function (pct) {
+    var tiers = (ECON.DATA && ECON.DATA.masteryTiers) || [];
+    var out = tiers[0] || null;
+    for (var i = 0; i < tiers.length; i++) if (pct >= tiers[i].at) out = tiers[i];
+    return out;
   };
 
   ECON.State = S;
