@@ -71,8 +71,9 @@ that is actually testable:
 
 So a run that earned nothing is still worth nothing after a ×2 Multiplier on
 Nightmare difficulty. `UI.award` clamps every multiplier to `S.MAX_MULTIPLIER`,
-so a typo in a data file cannot break the economy either, and nothing on the
-shop screen calls `UI.award` at all — credits remain a pure sink.
+and applies the difficulty multiplier **by default** so that the modes which
+call `award()` directly cannot forget it. Nothing on the shop screen calls
+`UI.award` at all — credits remain a pure sink.
 
 `tests/exploit.js` now replays its entire bad-bot sweep a second time with
 every power-up stocked to 99, the Multiplier armed and Nightmare selected,

@@ -168,6 +168,12 @@
       s += "<text x='" + px(t) + "' y='" + (H - m.b + 18) + "' text-anchor='middle' fill='var(--ink-3)' font-size='11'>" + t + "</text>";
     });
 
+    /* Available width for the legend, shared between the series. ~5.6px per
+       character at font-size 11 is close enough for truncation purposes. */
+    var legendAvail = W - m.l - m.r - 8;
+    var legendStep = Math.max(70, Math.min(150, legendAvail / Math.max(1, set.series.length)));
+    var legendChars = Math.max(6, Math.floor((legendStep - 22) / 5.6));
+
     set.series.forEach(function (ser, si) {
       var col = PALETTE[si % PALETTE.length];
       var d = ser.points.map(function (p, i) { return (i ? "L" : "M") + px(p[0]) + " " + py(p[1]); }).join(" ");
@@ -175,8 +181,15 @@
       ser.points.forEach(function (p) {
         s += "<circle cx='" + px(p[0]) + "' cy='" + py(p[1]) + "' r='4' fill='" + col + "'/>";
       });
-      s += "<rect x='" + (m.l + 8 + si * 150) + "' y='" + (m.t - 8) + "' width='12' height='4' rx='2' fill='" + col + "'/>";
-      s += "<text x='" + (m.l + 26 + si * 150) + "' y='" + (m.t - 2) + "' fill='var(--ink-2)' font-size='11'>" + U.esc(ser.name) + "</text>";
+      /* Legend. The spacing has to be computed rather than fixed: a fixed
+         150px step pushed the second series name past the right edge of the
+         viewBox on a 390px screen, which is exactly the horizontal-overflow
+         defect smoke.js exists to catch. Names are truncated to whatever the
+         computed step can hold. */
+      var legendX = m.l + 8 + si * legendStep;
+      s += "<rect x='" + legendX + "' y='" + (m.t - 8) + "' width='12' height='4' rx='2' fill='" + col + "'/>";
+      s += "<text x='" + (legendX + 18) + "' y='" + (m.t - 2) + "' fill='var(--ink-2)' font-size='11'>" +
+           U.esc(U.trunc(ser.name, legendChars)) + "</text>";
     });
 
     s += "<text x='" + ((W + m.l) / 2) + "' y='" + (H - 6) + "' text-anchor='middle' fill='var(--ink-3)' font-size='11'>" + U.esc(set.xLabel) + "</text>";

@@ -216,10 +216,16 @@
        "the bad bot earns 0 XP" true once the shop sells advantages, and
        tests/exploit.js re-runs its whole sweep with a full inventory and the
        multiplier active to prove it. S.runMultiplier clamps the value, so a
-       typo in a data file cannot break the economy either. */
+       typo in a data file cannot break the economy either.
+
+       Difficulty applies here BY DEFAULT rather than being passed in by each
+       mode. Eleven modes call award() directly, and the first version of this
+       required every one of them to remember — which meant Nightmare silently
+       did nothing in most of the app. A default is the only version a new
+       mode cannot get wrong. */
     var mult = (typeof opts.multiplier === "number")
       ? Math.max(1, Math.min(S.MAX_MULTIPLIER, opts.multiplier))
-      : 1;
+      : S.runMultiplier(false);
     var preMult = gross;
     gross = Math.round(gross * mult);
     var multBonus = gross - preMult;
