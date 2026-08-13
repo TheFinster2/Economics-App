@@ -204,7 +204,7 @@ ECON.DATA.mcq_p4 = [
 
 { id:"p4-002", mod:"P4", topic:"Labour force", diff:3,
   q:"During a recession, the measured unemployment rate sometimes falls even as employment falls. This happens because",
-  options:["discouraged workers leave the labour force, shrinking the denominator","the population of working age falls sharply during downturns","the government changes the definition of unemployment","employers reclassify full-time roles as part-time positions"], answer:0,
+  options:["discouraged workers leave the labour force, shrinking the denominator","the population of working age falls sharply during economic downturns","the government changes the definition of unemployment","employers reclassify full-time roles as part-time positions"], answer:0,
   why:"The rate is unemployed ÷ labour force. If people stop searching they leave both the numerator and the labour force, and the rate can fall without a single job being created.",
   distractors:{1:"The working-age population changes slowly and is not affected by the cycle.",2:"The ABS definition is stable and internationally standardised.",3:"Reclassifying hours affects underemployment, not the headline unemployment rate."},
   misconception:"Always read the unemployment rate alongside the participation rate." },
@@ -225,7 +225,7 @@ ECON.DATA.mcq_p4 = [
 
 { id:"p4-005", mod:"P4", topic:"Labour market outcomes", diff:2,
   q:"A national minimum wage set above the market clearing wage is most likely to",
-  options:["raise incomes for those employed while reducing quantity of labour demanded","increase both employment and the wages of low-paid workers","have no effect on employment because labour demand is fixed","reduce the wages of workers in higher-paid occupations"], answer:0,
+  options:["raise incomes for those employed while reducing quantity of labour demanded","increase both total employment and the wages paid to low-paid workers","have no effect on employment because labour demand is fixed","reduce the wages of workers in higher-paid occupations"], answer:0,
   why:"A binding wage floor lifts pay for those who keep their jobs, but at a higher wage firms demand less labour. The debate is about how large that employment effect actually is.",
   distractors:{1:"A higher wage raises the cost of labour, so quantity demanded falls rather than rises.",2:"Labour demand responds to price like any other demand.",3:"Minimum wages act at the bottom of the distribution, not the top."},
   misconception:"" },
@@ -275,7 +275,7 @@ ECON.DATA.mcq_p6 = [
 
 { id:"p6-001", mod:"P6", topic:"Aggregate demand", diff:2,
   q:"Aggregate demand in an open economy is the sum of",
-  options:["consumption, investment, government spending and net exports","consumption, saving, taxation and imports","wages, rent, interest and profit received by households","the output of the primary, secondary and tertiary sectors"], answer:0,
+  options:["consumption, investment, government spending and net exports","consumption, saving, taxation and imports","wages, rent, interest and profit received by households","the combined output of the primary, secondary and tertiary sectors"], answer:0,
   why:"AD measures total planned spending on domestic output. Net exports appear as exports minus imports because import spending goes to foreign producers.",
   distractors:{1:"Saving, taxation and imports are leakages, not components of spending on domestic output.",2:"That is the income method of measuring GDP, not aggregate demand.",3:"That is the production method of measuring output."},
   misconception:"" },
@@ -310,7 +310,7 @@ ECON.DATA.mcq_p6 = [
 
 { id:"p6-006", mod:"P6", topic:"Government intervention", diff:3,
   q:"A government imposes a tax on a good with a strong negative externality. The intended effect is to",
-  options:["raise the private cost towards the social cost, reducing output to the optimum","raise revenue without changing consumer or producer behaviour at all","increase supply of the good by compensating producers for the externality","eliminate the externality entirely by banning production of the good"], answer:0,
+  options:["raise the private cost towards the social cost, reducing output to the optimum","raise revenue without changing consumer or producer behaviour at all","increase supply of the good by compensating the producers for the external damage caused","eliminate the externality entirely by banning production of the good"], answer:0,
   why:"The market fails because the price does not include the external cost. A corrective tax internalises it, shifting supply left so that the quantity traded falls towards the socially optimal level.",
   distractors:{1:"If behaviour did not change, the externality would be untouched and the tax would not correct anything.",2:"A tax reduces supply; a subsidy would increase it.",3:"A tax reduces the quantity produced rather than prohibiting it."},
   misconception:"The point of a corrective tax is the behaviour change, not the revenue." }

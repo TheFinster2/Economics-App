@@ -29,6 +29,7 @@ var PRECACHE = [
   "js/core/tools.js",
   "js/data/glossary.js",
   "js/data/mcq-y11.js",
+  "js/data/mcq-y11-b.js",
   "js/data/mcq-y12.js",
   "js/data/cards.js",
   "js/data/short.js",
