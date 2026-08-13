@@ -77,7 +77,7 @@ ECON.DATA.mcq_h2 = [
 
 { id:"h2-002", mod:"H2", topic:"Balance of payments", diff:3, tags:["bop"],
   q:"A persistent current account deficit must be matched by",
-  options:["a surplus on the capital and financial account","a budget deficit of the same size","a depreciation of the exchange rate each year","an equal deficit in the terms of trade"], answer:0,
+  options:["a surplus on the capital and financial account","a budget deficit of the same size","a depreciation of the exchange rate in every single year","an equal deficit in the terms of trade"], answer:0,
   why:"The balance of payments balances by construction under a floating exchange rate. A country spending more abroad than it earns must be selling assets or borrowing to finance it, which is a financial account inflow.",
   distractors:{1:"The budget balance and the external balance are separate accounts that need not match.",2:"A deficit may persist for decades without continuous depreciation.",3:"The terms of trade is a price ratio, not an account with a balance."},
   misconception:"" },
@@ -112,7 +112,7 @@ ECON.DATA.mcq_h2 = [
 
 { id:"h2-007", mod:"H2", topic:"Free trade agreements", diff:3,
   q:"A concern about bilateral free trade agreements is that they may cause trade diversion, which means",
-  options:["trade shifts to a partner that is not the lowest-cost world producer","total world trade falls because tariffs are removed too slowly","imports rise faster than exports, worsening the trade balance","the agreement covers services but excludes agricultural goods"], answer:0,
+  options:["trade shifts to a partner that is not the lowest-cost world producer","total world trade falls, because tariffs are being removed far too slowly","imports rise faster than exports, worsening the trade balance","the agreement covers services but excludes agricultural goods"], answer:0,
   why:"Preferential access can make a partner's goods cheaper than a more efficient outsider's only because the outsider still faces the tariff. Resources are then allocated on the basis of policy rather than comparative advantage.",
   distractors:{1:"Bilateral agreements generally increase trade rather than reducing it.",2:"A change in the trade balance is a separate issue from diversion.",3:"Coverage gaps are a limitation of such deals, but they are not what diversion means."},
   misconception:"Trade creation is the gain, trade diversion is the loss. A bilateral deal produces both." }
@@ -158,7 +158,7 @@ ECON.DATA.mcq_h3 = [
 
 { id:"h3-006", mod:"H3", topic:"Phillips curve", diff:3,
   q:"The short-run Phillips curve suggests that a policy which reduces unemployment below the natural rate will",
-  options:["raise inflation, because tighter labour markets push up wages","lower inflation, because more people are earning and saving","leave inflation unchanged, since the two are unrelated","reduce both inflation and unemployment simultaneously"], answer:0,
+  options:["raise inflation, because tighter labour markets push up wages","lower inflation, because more people are earning and are also saving","leave inflation unchanged, since the two are unrelated","reduce both inflation and unemployment simultaneously"], answer:0,
   why:"When labour is scarce, employers bid wages up to attract staff, and those costs pass into prices. That short-run trade-off is why central banks care about how far unemployment is below the natural rate.",
   distractors:{1:"More saving does not offset the wage pressure from a tight labour market.",2:"The observed short-run relationship is inverse, not absent.",3:"That combination is possible only if the curve itself shifts, through a supply-side improvement."},
   misconception:"The trade-off is short-run. In the long run the curve is close to vertical at the natural rate." },
@@ -172,7 +172,7 @@ ECON.DATA.mcq_h3 = [
 
 { id:"h3-008", mod:"H3", topic:"Environmental sustainability", diff:3, tags:["market-failure"],
   q:"Ecologically sustainable development requires that",
-  options:["present needs are met without reducing future generations' capacity","economic growth is stopped in order to protect the environment","all natural resources are left completely unused indefinitely","environmental policy is set entirely by international agreement"], answer:0,
+  options:["present needs are met without reducing future generations' capacity","economic growth is stopped in order to protect the environment","all natural resources are left completely unused indefinitely","environmental policy is set entirely by binding international agreement"], answer:0,
   why:"The Brundtland definition is about intergenerational equity: using resources at a rate that does not foreclose the options of those who come later. It permits growth but constrains its composition.",
   distractors:{1:"Sustainability is about the nature of growth, not its prohibition.",2:"Leaving resources entirely unused is neither required nor practical.",3:"Domestic policy plays a major role alongside international agreements."},
   misconception:"" }
@@ -211,14 +211,14 @@ ECON.DATA.mcq_h4 = [
 
 { id:"h4-005", mod:"H4", topic:"Policy mix", diff:3, tags:["policy"],
   q:"A limitation shared by both fiscal and monetary policy is that",
-  options:["time lags mean the effect may arrive after conditions have changed","neither can influence the level of aggregate demand at all","both are controlled by the same government department","neither has any effect on the rate of inflation over time"], answer:0,
+  options:["time lags mean the effect may arrive after conditions have changed","neither of them can influence the level of aggregate demand at all","both are controlled by the same government department","neither has any effect on the rate of inflation over time"], answer:0,
   why:"Recognition, implementation and impact lags mean a policy set for today's problem may take effect a year later, when the problem may have reversed. This is the main argument for gradualism.",
   distractors:{1:"Influencing aggregate demand is precisely what both policies do.",2:"Fiscal policy is set by government; monetary policy by an independent Reserve Bank.",3:"Both affect inflation, which is why the policy mix is debated at all."},
   misconception:"" },
 
 { id:"h4-006", mod:"H4", topic:"Microeconomic policy", diff:3, tags:["policy"],
   q:"Microeconomic reform differs from fiscal and monetary policy in that it aims primarily to",
-  options:["raise aggregate supply by improving efficiency in individual markets","increase aggregate demand quickly during a severe downturn","alter the exchange rate to improve export competitiveness","redistribute income from higher to lower income households"], answer:0,
+  options:["raise aggregate supply by improving efficiency in individual markets","increase aggregate demand very quickly during a severe economic downturn","alter the exchange rate to improve export competitiveness","redistribute income from higher to lower income households"], answer:0,
   why:"Demand-side policies move spending; microeconomic reform moves the economy's capacity. Competition policy, deregulation and infrastructure raise productivity, allowing growth without inflation.",
   distractors:{1:"Micro reform works slowly and is a poor tool for a downturn.",2:"The exchange rate floats and is not a micro policy target.",3:"Redistribution is chiefly done through the tax and transfer system."},
   misconception:"Demand-side policy manages the cycle. Supply-side policy raises the speed limit." },

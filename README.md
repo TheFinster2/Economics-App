@@ -147,7 +147,7 @@ not engineering — every format is established and validated.
 
 | | shipped | target |
 |---|---|---|
-| Multiple choice | 108 | 1000 |
+| Multiple choice | 132 | 1000 |
 | Short answer with criteria | 6 | 150 |
 | Flashcards | 113 | 400 |
 | Diagrams | 12 | 12 ✓ |
