@@ -1,0 +1,175 @@
+/* In-game reference glossary. Priced at −25% XP with a latch, and withheld
+   entirely from Term Match and Label It, where it IS the answer key (§7.3).
+
+   House rule: one sentence, no hedging, and it must be usable on its own
+   without the surrounding topic. Where two terms are routinely confused —
+   demand vs quantity demanded, deficit vs debt, depreciation vs devaluation —
+   the definition says so explicitly, because that confusion is where marks
+   are actually lost. */
+window.ECON = window.ECON || {}; ECON.DATA = ECON.DATA || {};
+
+ECON.DATA.glossary = [
+
+// ── P1 Introduction to Economics ────────────────────────────────────────
+{ term:"Scarcity", mod:"P1", def:"The condition that wants are unlimited while the resources available to satisfy them are limited, which is why choices must be made." },
+{ term:"Opportunity cost", mod:"P1", def:"The value of the next best alternative given up when a choice is made." },
+{ term:"Production possibility frontier", mod:"P1", def:"A curve showing the maximum combinations of two goods an economy can produce when all resources are fully and efficiently employed." },
+{ term:"Factors of production", mod:"P1", def:"The four categories of resource used to produce goods and services: natural resources, labour, capital and enterprise." },
+{ term:"Economic system", mod:"P1", def:"The set of arrangements a society uses to decide what to produce, how to produce it, and for whom." },
+{ term:"Circular flow of income", mod:"P1", def:"A model showing income, spending, output and resources moving between the five sectors of the economy." },
+{ term:"Leakage", mod:"P1", def:"Income withdrawn from the circular flow through saving, taxation or import spending." },
+{ term:"Injection", mod:"P1", def:"Spending added to the circular flow through investment, government spending or export income." },
+{ term:"Equilibrium (circular flow)", mod:"P1", def:"The state in which total leakages equal total injections, so the level of income is stable." },
+{ term:"Economic growth", mod:"P1", def:"An increase in the volume of goods and services produced by an economy over time, measured by the change in real GDP." },
+{ term:"Standard of living", mod:"P1", def:"The material and non-material wellbeing enjoyed by a population, of which income per head is only one component." },
+
+// ── P2 Consumers and Business ───────────────────────────────────────────
+{ term:"Disposable income", mod:"P2", def:"Income remaining after direct taxes have been paid, available for consumption or saving." },
+{ term:"Average propensity to consume", mod:"P2", def:"The proportion of total income that is spent on consumption." },
+{ term:"Marginal propensity to consume", mod:"P2", def:"The proportion of each ADDITIONAL dollar of income that is spent rather than saved." },
+{ term:"Marginal propensity to save", mod:"P2", def:"The proportion of each additional dollar of income that is saved; it equals one minus the MPC." },
+{ term:"Income elasticity of demand", mod:"P2", def:"The responsiveness of quantity demanded to a change in income; negative for an inferior good and above one for a luxury." },
+{ term:"Inferior good", mod:"P2", def:"A good for which demand falls as income rises, giving a negative income elasticity." },
+{ term:"Normal good", mod:"P2", def:"A good for which demand rises as income rises, giving a positive income elasticity." },
+{ term:"Fixed cost", mod:"P2", def:"A cost that does not change with the level of output in the short run, such as rent on premises." },
+{ term:"Variable cost", mod:"P2", def:"A cost that changes directly with the level of output, such as raw materials." },
+{ term:"Economies of scale", mod:"P2", def:"The fall in average cost per unit that occurs as a firm increases its scale of production." },
+{ term:"Diseconomies of scale", mod:"P2", def:"The rise in average cost per unit that occurs when a firm grows beyond its efficient size, usually through coordination costs." },
+{ term:"Productivity", mod:"P2", def:"Output per unit of input, most often measured as output per hour worked." },
+{ term:"Corporate social responsibility", mod:"P2", def:"A firm's voluntary acceptance of obligations to stakeholders and the environment beyond what the law requires." },
+
+// ── P3 Markets ──────────────────────────────────────────────────────────
+{ term:"Demand", mod:"P3", def:"The quantities of a good consumers are willing and able to buy at each price over a period; a change in demand shifts the whole curve." },
+{ term:"Quantity demanded", mod:"P3", def:"The amount bought at one particular price; a change in it is a movement ALONG the demand curve, not a shift of it." },
+{ term:"Supply", mod:"P3", def:"The quantities of a good producers are willing and able to offer at each price over a period." },
+{ term:"Market equilibrium", mod:"P3", def:"The price at which quantity demanded equals quantity supplied, so there is no tendency for price to change." },
+{ term:"Shortage", mod:"P3", def:"The excess of quantity demanded over quantity supplied that exists when price is below equilibrium." },
+{ term:"Surplus (market)", mod:"P3", def:"The excess of quantity supplied over quantity demanded that exists when price is above equilibrium." },
+{ term:"Price elasticity of demand", mod:"P3", def:"The responsiveness of quantity demanded to a change in price, calculated as percentage change in quantity divided by percentage change in price." },
+{ term:"Elastic demand", mod:"P3", def:"Demand for which the elasticity exceeds one in absolute value, so quantity responds more than proportionally to a price change." },
+{ term:"Inelastic demand", mod:"P3", def:"Demand for which the elasticity is between zero and one in absolute value, so quantity responds less than proportionally to a price change." },
+{ term:"Price elasticity of supply", mod:"P3", def:"The responsiveness of quantity supplied to a change in price; it rises with the time producers have to adjust." },
+{ term:"Cross elasticity of demand", mod:"P3", def:"The responsiveness of demand for one good to a change in the price of another; positive for substitutes and negative for complements." },
+{ term:"Substitute good", mod:"P3", def:"A good that can be used in place of another, so a rise in one's price increases demand for the other." },
+{ term:"Complementary good", mod:"P3", def:"A good used together with another, so a rise in one's price decreases demand for the other." },
+{ term:"Price ceiling", mod:"P3", def:"A legal maximum price set below equilibrium, which creates a persistent shortage." },
+{ term:"Price floor", mod:"P3", def:"A legal minimum price set above equilibrium, which creates a persistent surplus." },
+{ term:"Market failure", mod:"P3", def:"A situation in which the free market allocates resources inefficiently, so the outcome is not socially optimal." },
+{ term:"Externality", mod:"P3", def:"A cost or benefit of a transaction that falls on a third party and is not reflected in the market price." },
+{ term:"Public good", mod:"P3", def:"A good that is non-excludable and non-rival, so the market will not supply it in adequate quantity." },
+{ term:"Free rider", mod:"P3", def:"Someone who consumes a good without paying, which is possible whenever a good is non-excludable." },
+{ term:"Perfect competition", mod:"P3", def:"A market with many small firms selling an identical product, free entry and full information, so no firm can set price." },
+{ term:"Monopoly", mod:"P3", def:"A market supplied by a single firm with substantial barriers to entry, allowing it to set price above the competitive level." },
+{ term:"Oligopoly", mod:"P3", def:"A market dominated by a small number of large firms whose decisions are interdependent." },
+{ term:"Monopolistic competition", mod:"P3", def:"A market with many firms selling differentiated products, giving each a small degree of price-setting power." },
+
+// ── P4 Labour Markets ───────────────────────────────────────────────────
+{ term:"Labour force", mod:"P4", def:"All people of working age who are either employed or actively seeking and available for work." },
+{ term:"Participation rate", mod:"P4", def:"The proportion of the working-age population that is in the labour force." },
+{ term:"Unemployment rate", mod:"P4", def:"The proportion of the LABOUR FORCE that is unemployed; the denominator excludes people not looking for work." },
+{ term:"Derived demand", mod:"P4", def:"Demand for a factor of production that arises from demand for the good it helps produce." },
+{ term:"Nominal wage", mod:"P4", def:"The money amount of a wage, before any adjustment for changes in the price level." },
+{ term:"Real wage", mod:"P4", def:"The purchasing power of a wage, found by adjusting the nominal wage for inflation." },
+{ term:"Enterprise agreement", mod:"P4", def:"A collective agreement on pay and conditions negotiated between an employer and employees at the workplace level." },
+{ term:"Award", mod:"P4", def:"A legally enforceable set of minimum pay and conditions applying to an industry or occupation." },
+{ term:"Industrial dispute", mod:"P4", def:"A disagreement between employers and employees over pay or conditions that results in industrial action." },
+{ term:"Labour productivity", mod:"P4", def:"Output produced per hour worked, and the main long-run source of higher real wages." },
+
+// ── P5 Financial Markets ────────────────────────────────────────────────
+{ term:"Financial market", mod:"P5", def:"A market that channels funds from savers to borrowers by trading financial assets." },
+{ term:"Primary market", mod:"P5", def:"The market in which a financial asset is issued for the first time, raising new funds for the issuer." },
+{ term:"Secondary market", mod:"P5", def:"The market in which existing financial assets are traded between investors, raising no new funds." },
+{ term:"Share", mod:"P5", def:"A financial asset representing part ownership of a company, carrying a claim on its profits." },
+{ term:"Bond", mod:"P5", def:"A financial asset representing a loan to a government or company, repayable at a set date with interest." },
+{ term:"Interest rate", mod:"P5", def:"The price of borrowing money, expressed as a percentage of the amount borrowed per period." },
+{ term:"Nominal interest rate", mod:"P5", def:"The published interest rate, before any adjustment for inflation." },
+{ term:"Real interest rate", mod:"P5", def:"The nominal interest rate less the inflation rate, which is what measures the true cost of borrowing." },
+{ term:"Cash rate", mod:"P5", def:"The interest rate on overnight loans between banks, and the rate the Reserve Bank targets to set monetary policy." },
+{ term:"Financial intermediary", mod:"P5", def:"An institution that stands between savers and borrowers, such as a bank, which pools and transforms funds." },
+{ term:"APRA", mod:"P5", def:"The Australian Prudential Regulation Authority, which supervises banks, insurers and superannuation funds for financial safety." },
+{ term:"ASIC", mod:"P5", def:"The Australian Securities and Investments Commission, which regulates corporate conduct, market integrity and consumer protection in finance." },
+
+// ── P6 Government and the Economy ───────────────────────────────────────
+{ term:"Aggregate demand", mod:"P6", def:"Total planned spending on an economy's output, equal to consumption plus investment plus government spending plus net exports." },
+{ term:"Aggregate supply", mod:"P6", def:"The total output firms in an economy are willing to produce at each price level." },
+{ term:"Multiplier", mod:"P6", def:"The factor by which a change in injection changes national income, equal to one divided by the marginal propensity to save." },
+{ term:"Budget deficit", mod:"P6", def:"The excess of government expenditure over revenue in a period; it is a flow, unlike debt, which is a stock." },
+{ term:"Budget surplus", mod:"P6", def:"The excess of government revenue over expenditure in a period." },
+{ term:"Public debt", mod:"P6", def:"The accumulated stock of government borrowing outstanding, built up by past deficits." },
+{ term:"Progressive tax", mod:"P6", def:"A tax that takes a rising proportion of income as income rises, such as Australian personal income tax." },
+{ term:"Regressive tax", mod:"P6", def:"A tax that takes a falling proportion of income as income rises, such as a flat consumption tax." },
+{ term:"Proportional tax", mod:"P6", def:"A tax that takes the same proportion of income at every income level, such as the company tax rate." },
+{ term:"Automatic stabiliser", mod:"P6", def:"A feature of the budget that moderates the business cycle without any policy decision, such as unemployment benefits rising in a downturn." },
+{ term:"Transfer payment", mod:"P6", def:"A government payment made without any good or service being supplied in return, such as a pension." },
+{ term:"Business cycle", mod:"P6", def:"The recurring pattern of expansion, peak, contraction and trough in economic activity around the long-run trend." },
+
+// ── H1 The Global Economy ───────────────────────────────────────────────
+{ term:"Globalisation", mod:"H1", def:"The increasing integration of national economies through trade, finance, investment, technology and labour movement." },
+{ term:"Gross world product", mod:"H1", def:"The total value of final goods and services produced by all economies in a year." },
+{ term:"Trade liberalisation", mod:"H1", def:"The removal of barriers to international trade such as tariffs, quotas and subsidies." },
+{ term:"Tariff", mod:"H1", def:"A tax imposed on imported goods, which raises their price and shifts demand towards domestic producers." },
+{ term:"Import quota", mod:"H1", def:"A limit on the physical quantity of a good that may be imported in a period." },
+{ term:"Subsidy", mod:"H1", def:"A payment by government to domestic producers, which lowers their costs and allows them to undercut imports." },
+{ term:"Comparative advantage", mod:"H1", def:"The ability to produce a good at a lower opportunity cost than another country, which is the basis for gains from trade." },
+{ term:"Absolute advantage", mod:"H1", def:"The ability to produce more of a good with the same resources than another country; it is not what determines the pattern of trade." },
+{ term:"Foreign direct investment", mod:"H1", def:"Investment that acquires a lasting management interest in a foreign enterprise, usually ten per cent or more of its equity." },
+{ term:"Transnational corporation", mod:"H1", def:"A firm that owns or controls production facilities in more than one country." },
+{ term:"World Trade Organization", mod:"H1", def:"The international body that administers trade agreements and adjudicates trade disputes between member economies." },
+{ term:"International Monetary Fund", mod:"H1", def:"The international institution that monitors the global financial system and lends to countries facing balance of payments crises." },
+{ term:"Human Development Index", mod:"H1", def:"A composite measure of development combining income per head, life expectancy and years of schooling." },
+{ term:"Gini coefficient", mod:"H1", def:"A measure of inequality between zero, perfect equality, and one, perfect inequality." },
+{ term:"Lorenz curve", mod:"H1", def:"A graph plotting cumulative share of income against cumulative share of population; the further from the diagonal, the greater the inequality." },
+{ term:"Trade bloc", mod:"H1", def:"A group of economies that have agreed to reduce trade barriers among themselves, such as the European Union." },
+
+// ── H2 Australia's Place in the Global Economy ──────────────────────────
+{ term:"Balance of payments", mod:"H2", def:"The record of all transactions between Australia and the rest of the world over a period." },
+{ term:"Current account", mod:"H2", def:"The section of the balance of payments recording trade in goods and services, primary income and secondary income." },
+{ term:"Capital and financial account", mod:"H2", def:"The section of the balance of payments recording transactions in assets and liabilities, including borrowing and investment." },
+{ term:"Net foreign debt", mod:"H2", def:"The stock of Australia's borrowing from overseas less its lending overseas." },
+{ term:"Net foreign liabilities", mod:"H2", def:"Net foreign debt plus net foreign equity — the total of what Australia owes and what foreigners own here, net of Australian holdings abroad." },
+{ term:"Terms of trade", mod:"H2", def:"The ratio of export prices to import prices, expressed as an index; a rise means each unit of exports buys more imports." },
+{ term:"Exchange rate", mod:"H2", def:"The price of one currency in terms of another." },
+{ term:"Depreciation (currency)", mod:"H2", def:"A fall in the value of a floating currency caused by market forces; the deliberate equivalent under a fixed rate is a devaluation." },
+{ term:"Appreciation (currency)", mod:"H2", def:"A rise in the value of a floating currency caused by market forces." },
+{ term:"Floating exchange rate", mod:"H2", def:"An exchange rate determined by supply and demand in the foreign exchange market without a target set by government." },
+{ term:"Trade weighted index", mod:"H2", def:"An index measuring the Australian dollar against a basket of currencies weighted by each country's share of Australian trade." },
+{ term:"Free trade agreement", mod:"H2", def:"A treaty between economies to reduce or remove trade barriers between them." },
+{ term:"J-curve effect", mod:"H2", def:"The pattern in which a depreciation worsens the trade balance at first, because import prices rise before volumes adjust, and improves it later." },
+{ term:"Valuation effect", mod:"H2", def:"The increase in the Australian-dollar value of foreign currency denominated debt that follows a depreciation." },
+
+// ── H3 Economic Issues ──────────────────────────────────────────────────
+{ term:"Real GDP", mod:"H3", def:"The value of output measured at constant prices, so that growth reflects volume rather than inflation." },
+{ term:"Recession", mod:"H3", def:"Conventionally, two consecutive quarters of negative real GDP growth." },
+{ term:"Inflation", mod:"H3", def:"A sustained increase in the general price level, which reduces the purchasing power of money." },
+{ term:"Consumer price index", mod:"H3", def:"An index measuring the price of a fixed basket of goods and services bought by a typical metropolitan household." },
+{ term:"Underlying inflation", mod:"H3", def:"Inflation with the most volatile price movements removed, which shows the persistent trend the Reserve Bank targets." },
+{ term:"Demand-pull inflation", mod:"H3", def:"Inflation caused by aggregate demand growing faster than the economy's capacity to supply." },
+{ term:"Cost-push inflation", mod:"H3", def:"Inflation caused by a rise in the costs of production, such as wages or imported inputs." },
+{ term:"Cyclical unemployment", mod:"H3", def:"Unemployment caused by a downturn in aggregate demand." },
+{ term:"Structural unemployment", mod:"H3", def:"Unemployment caused by a mismatch between the skills workers have and the skills employers need." },
+{ term:"Frictional unemployment", mod:"H3", def:"Short-term unemployment while people move between jobs." },
+{ term:"Seasonal unemployment", mod:"H3", def:"Unemployment caused by regular annual variation in the demand for particular kinds of work." },
+{ term:"Hidden unemployment", mod:"H3", def:"People who would work if a job were available but are not counted because they are not actively looking." },
+{ term:"Underemployment", mod:"H3", def:"Employed people who want and are available for more hours than they currently work." },
+{ term:"Natural rate of unemployment", mod:"H3", def:"The rate of unemployment that persists when the economy is at full capacity, made up of frictional, structural and seasonal unemployment." },
+{ term:"Phillips curve", mod:"H3", def:"The observed short-run inverse relationship between the unemployment rate and the inflation rate." },
+{ term:"Poverty line", mod:"H3", def:"An income threshold below which a household is considered unable to afford a basic standard of living." },
+{ term:"Ecologically sustainable development", mod:"H3", def:"Development that meets present needs without reducing the capacity of future generations to meet theirs." },
+{ term:"Externality (negative production)", mod:"H3", def:"A cost imposed on third parties by production, such as pollution, which the market price does not include." },
+
+// ── H4 Economic Policies and Management ─────────────────────────────────
+{ term:"Fiscal policy", mod:"H4", def:"The use of the Commonwealth budget — government revenue and expenditure — to influence the level of economic activity." },
+{ term:"Monetary policy", mod:"H4", def:"Action by the Reserve Bank to influence the cash rate and therefore interest rates, credit and aggregate demand." },
+{ term:"Expansionary policy", mod:"H4", def:"Policy intended to increase aggregate demand, through lower interest rates or a larger budget deficit." },
+{ term:"Contractionary policy", mod:"H4", def:"Policy intended to reduce aggregate demand, through higher interest rates or a smaller deficit." },
+{ term:"Domestic market operations", mod:"H4", def:"The Reserve Bank's buying and selling of government securities to keep the cash rate at its target." },
+{ term:"Transmission mechanism", mod:"H4", def:"The chain by which a change in the cash rate reaches economic activity, running through borrowing costs, asset prices, the exchange rate and expectations." },
+{ term:"Microeconomic reform", mod:"H4", def:"Policy aimed at raising the efficiency of individual markets and firms, and so at raising aggregate supply." },
+{ term:"Crowding out", mod:"H4", def:"The reduction in private investment that can follow government borrowing when it pushes interest rates up." },
+{ term:"Structural component of the budget", mod:"H4", def:"The part of the budget outcome resulting from deliberate policy decisions rather than from the business cycle." },
+{ term:"Cyclical component of the budget", mod:"H4", def:"The part of the budget outcome caused by the business cycle acting on revenue and spending automatically." },
+{ term:"Inflation targeting", mod:"H4", def:"The Reserve Bank's framework of setting monetary policy to hold underlying inflation between two and three per cent on average over time." },
+{ term:"Time lag (policy)", mod:"H4", def:"The delay between an economic problem arising and a policy having its full effect, which limits how precisely policy can be used." },
+{ term:"Environmental management policy", mod:"H4", def:"Government measures such as regulation, taxes or tradeable permits used to address environmental market failure." }
+
+];

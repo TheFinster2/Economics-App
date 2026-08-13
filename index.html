@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1410">
+<title>Equilibrium — HSC Economics</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <button class="tb-btn" id="btnBack" aria-label="Back">&#8592;</button>
+  <a class="brand" href="#/home"><span class="brand-mark">&#8652;</span><span class="brand-name">Equilibrium</span></a>
+  <div class="tb-stats">
+    <span class="chip chip-lv" id="chipLv" title="Level">Lv 1</span>
+    <span class="chip chip-xp" id="chipXp" title="XP">0</span>
+    <span class="chip chip-coin" id="chipCoin" title="Credits">&#9679; 0</span>
+  </div>
+  <button class="tb-btn" id="btnMenu" aria-label="Menu">&#9776;</button>
+</header>
+
+<div class="xpbar" id="xpbar"><div class="xpbar-fill" id="xpbarFill"></div></div>
+
+<main id="view" class="view" tabindex="-1"></main>
+
+<nav class="tabbar" id="tabbar">
+  <a href="#/home"   data-tab="home"><span>&#9750;</span>Play</a>
+  <a href="#/cards"  data-tab="cards"><span>&#9635;</span>Cards</a>
+  <a href="#/atlas"  data-tab="atlas"><span>&#9906;</span>Atlas</a>
+  <a href="#/shop"   data-tab="shop"><span>&#9670;</span>Shop</a>
+  <a href="#/you"    data-tab="you"><span>&#9737;</span>You</a>
+</nav>
+
+<div class="modal-root" id="modalRoot" hidden></div>
+<div class="toast-root" id="toastRoot" aria-live="polite"></div>
+
+<!-- ── core ─────────────────────────────────────────────────────────── -->
+<script src="js/core/util.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/ui.js"></script>
+<script src="js/core/econcalc.js"></script>
+<script src="js/core/mark.js"></script>
+
+<!-- ── data: content only, no logic ─────────────────────────────────── -->
+<script src="js/data/glossary.js"></script>
+<script src="js/data/mcq-y11.js"></script>
+<script src="js/data/mcq-y12.js"></script>
+<script src="js/data/cards.js"></script>
+<script src="js/data/short.js"></script>
+<script src="js/data/play.js"></script>
+<script src="js/data/calc-templates.js"></script>
+<script src="js/data/shifts.js"></script>
+<script src="js/data/diagrams/market.js"></script>
+<script src="js/data/diagrams/macro.js"></script>
+<script src="js/data/packs.js"></script>
+<script src="js/data/achievements.js"></script>
+<script src="js/data/shop.js"></script>
+
+<!-- ── core that depends on data ────────────────────────────────────── -->
+<script src="js/core/bank.js"></script>
+<script src="js/core/coverage.js"></script>
+<script src="js/core/diagram.js"></script>
+<script src="js/core/tools.js"></script>
+
+<!-- ── modes ────────────────────────────────────────────────────────── -->
+<script src="js/modes/common.js"></script>
+<script src="js/modes/rapidfire.js"></script>
+<script src="js/modes/drill.js"></script>
+<script src="js/modes/calculate.js"></script>
+<script src="js/modes/termmatch.js"></script>
+<script src="js/modes/labelit.js"></script>
+<script src="js/modes/datadetective.js"></script>
+<script src="js/modes/sortit.js"></script>
+<script src="js/modes/shiftit.js"></script>
+<script src="js/modes/processorder.js"></script>
+<script src="js/modes/survival.js"></script>
+<script src="js/modes/rehab.js"></script>
+<script src="js/modes/response.js"></script>
+<script src="js/modes/boss.js"></script>
+<script src="js/modes/flashcards.js"></script>
+
+<!-- ── arcade: never calls UI.award ─────────────────────────────────── -->
+<script src="js/arcade/arcade.js"></script>
+<script src="js/arcade/marketrun.js"></script>
+<script src="js/arcade/ticker-match.js"></script>
+<script src="js/arcade/bargain-hunt.js"></script>
+
+<!-- ── screens + boot ───────────────────────────────────────────────── -->
+<script src="js/screens/home.js"></script>
+<script src="js/screens/cards.js"></script>
+<script src="js/screens/atlas.js"></script>
+<script src="js/screens/shop.js"></script>
+<script src="js/screens/you.js"></script>
+<script src="js/screens/settings.js"></script>
+<script src="js/screens/reference.js"></script>
+<script src="js/screens/dev.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
