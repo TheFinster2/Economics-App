@@ -94,8 +94,8 @@
     var d = S.data;
     var lv = S.levelFromXp(d.xp);
     U.$("#chipLv").textContent = "Lv " + lv.level;
-    U.$("#chipXp").textContent = U.fmtInt(d.xp) + " XP";
-    U.$("#chipCoin").textContent = "◉ " + U.fmtInt(d.coins);
+    U.$("#chipXp").textContent = U.fmtCompact(d.xp) + " XP";
+    U.$("#chipCoin").textContent = "◉ " + U.fmtCompact(d.coins);
     var pctv = lv.need ? Math.min(100, (lv.into / lv.need) * 100) : 100;
     U.$("#xpbarFill").style.width = pctv + "%";
     document.documentElement.dataset.theme = d.theme === "ledger" ? "" : d.theme;

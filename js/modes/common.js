@@ -85,7 +85,6 @@
       state.shownAt = Date.now();
 
       var host = shell.clear();
-      if (powerBar) { host.appendChild(powerBar.node); powerBar.refresh(); }
       paintMeters();
       shell.setProgress(cfg.limit ? state.i / cfg.limit : (runTimeMs ? 1 - (state.endsAt - Date.now()) / runTimeMs : 0));
 
@@ -143,6 +142,12 @@
         }
         host.appendChild(row);
       });
+
+      /* The bar goes on AFTER renderMCQ, not before: renderMCQ clears its
+         host, so anything appended first is silently wiped. That is exactly
+         how the bar shipped invisible — the code ran, the DOM node was
+         built, and it was removed a line later. */
+      if (powerBar) { host.appendChild(powerBar.node); powerBar.refresh(); }
     }
 
     /* ── power-up bar ──────────────────────────────────────────────────

@@ -7,13 +7,15 @@
 "use strict";
 const B = require("./browser.js");
 
+
 (async () => {
   const r = B.reporter("smoke");
 
-  for (const width of [360, 390]) {
+  for (const width of [320, 360, 390, 414]) {
     const rig = await B.launch({ width });
     const { page } = rig;
     console.log("smoke — driving every screen at " + width + "px");
+
 
     const screens = [
       "/home", "/cards", "/atlas", "/shop", "/you", "/settings", "/reference",
@@ -25,6 +27,64 @@ const B = require("./browser.js");
       r.check(over.length === 0, width + "px " + s + ": horizontal overflow — " + over.join("; "));
       const hasContent = await page.evaluate(() => document.querySelector("#view").children.length > 0);
       r.check(hasContent, width + "px " + s + ": rendered nothing");
+      const collide = await B.overlaps(page);
+      r.check(collide.length === 0, width + "px " + s + ": overlapping UI — " + collide.join("; "));
+      const crushed = await B.squeezed(page);
+      r.check(crushed.length === 0, width + "px " + s + ": text crushed to nothing — " + crushed.join("; "));
+    }
+
+    /* ── the top bar, with numbers big enough to be awkward ───────────
+       The bar shipped with the stat chips painted over the brand name at
+       five-digit XP. Nothing caught it: no element overflowed the document,
+       the grid tracks simply collided, and the default save has small enough
+       numbers that the bar fits. So set the numbers high and measure. */
+    await B.goto(page, "/home");
+    await page.evaluate(() => {
+      const S = window.ECON.State;
+      S.data.xp = 284500; S.data.coins = 18400; S.save();
+      window.ECON.UI.syncChrome();
+    });
+    await page.waitForTimeout(120);
+
+    const bar = await page.evaluate(() => {
+      const tb = document.querySelector(".topbar");
+      const kids = [...tb.children].filter((k) => getComputedStyle(k).display !== "none");
+      const r = tb.getBoundingClientRect();
+      const boxes = kids.map((k) => {
+        const b = k.getBoundingClientRect();
+        return { cls: k.className || k.id, left: b.left, right: b.right, w: b.width };
+      });
+      const nameEl = document.querySelector(".brand-name");
+      const nameCS = nameEl ? getComputedStyle(nameEl) : null;
+      return {
+        barW: r.width,
+        boxes: boxes,
+        contentRight: Math.max.apply(null, boxes.map((b) => b.right)),
+        contentLeft: Math.min.apply(null, boxes.map((b) => b.left)),
+        nameShown: !!nameEl && nameCS.display !== "none",
+        nameW: nameEl ? nameEl.getBoundingClientRect().width : 0,
+        nameScroll: nameEl ? nameEl.scrollWidth : 0
+      };
+    });
+
+    // 1. no child of the bar collides with another
+    for (let i = 0; i < bar.boxes.length; i++) {
+      for (let j = i + 1; j < bar.boxes.length; j++) {
+        const a = bar.boxes[i], b = bar.boxes[j];
+        const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+        r.check(ox <= 2, width + "px top bar: " + a.cls + " overlaps " + b.cls +
+          " by " + Math.round(ox) + "px at five-digit XP — the stat chips are painting over the brand");
+      }
+    }
+    // 2. and nothing sits outside the bar itself
+    r.check(bar.contentLeft >= -2 && bar.contentRight <= bar.barW + 2,
+      width + "px top bar: content spans " + Math.round(bar.contentLeft) + "→" +
+      Math.round(bar.contentRight) + " inside a " + Math.round(bar.barW) + "px bar");
+    // 3. if the brand name is shown at all, it must not be clipped to nothing
+    if (bar.nameShown) {
+      r.check(bar.nameW >= Math.min(40, bar.nameScroll),
+        width + "px top bar: the brand name is squeezed to " + Math.round(bar.nameW) +
+        "px of " + bar.nameScroll + "px — it should truncate gracefully, not vanish");
     }
 
     // every mode the registry knows about, opened and given one interaction
@@ -38,6 +98,10 @@ const B = require("./browser.js");
 
       const over = await B.overflow(page);
       r.check(over.length === 0, width + "px " + m.id + ": horizontal overflow — " + over.join("; "));
+      const collide = await B.overlaps(page);
+      r.check(collide.length === 0, width + "px " + m.id + ": overlapping UI — " + collide.join("; "));
+      const crushed = await B.squeezed(page);
+      r.check(crushed.length === 0, width + "px " + m.id + ": text crushed to nothing — " + crushed.join("; "));
 
       // answer / advance once, whatever the mode offers
       const clicked = await page.evaluate(() => {

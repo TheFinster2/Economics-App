@@ -94,6 +94,90 @@ async function goto(page, hash) {
   await page.waitForTimeout(180);
 }
 
+/* Overlap check.
+
+   Horizontal overflow catches content that spills past the viewport. It does
+   NOT catch content that collides with a sibling inside the viewport, which
+   is how the top bar shipped with the stat chips painted over the brand name:
+   nothing overflowed the document, the grid tracks simply overlapped.
+
+   So: for every row-like container, compare the bounding boxes of its
+   visible direct children and report any pair that intersects by more than a
+   couple of pixels. Deliberately narrow — it only looks at containers that
+   are supposed to lay children out side by side, because a badge absolutely
+   positioned over a card is legitimate and common. */
+async function overlaps(page) {
+  return page.evaluate(() => {
+    const ROWS = [".topbar", ".tb-stats", ".gs-meters", ".spread", ".row", ".seg", ".li", ".powerbar", ".tabbar"];
+    const out = [];
+    const seen = new Set();
+    const name = (e) => e.tagName.toLowerCase() +
+      (e.id ? "#" + e.id : "") +
+      (typeof e.className === "string" && e.className ? "." + e.className.trim().split(/\s+/)[0] : "");
+
+    document.querySelectorAll(ROWS.join(",")).forEach((row) => {
+      const kids = [...row.children].filter((k) => {
+        const cs = getComputedStyle(k);
+        if (cs.display === "none" || cs.visibility === "hidden" || cs.position === "absolute") return false;
+        const r = k.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+      });
+      for (let i = 0; i < kids.length; i++) {
+        for (let j = i + 1; j < kids.length; j++) {
+          const a = kids[i].getBoundingClientRect();
+          const b = kids[j].getBoundingClientRect();
+          const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+          const oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+          if (ox > 2 && oy > 2) {
+            const key = name(row) + ">" + name(kids[i]) + "|" + name(kids[j]);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            out.push(name(kids[i]) + " overlaps " + name(kids[j]) +
+                     " by " + Math.round(ox) + "x" + Math.round(oy) + "px inside " + name(row));
+          }
+        }
+      }
+    });
+    return out;
+  });
+}
+
+/* Squeezed-text check.
+
+   The sibling of the overlap check, and the one that actually caught the top
+   bar. An element with overflow:hidden that has been compressed to a small
+   fraction of the text it contains is not "truncated gracefully" — it is
+   gone. A chip losing its last few characters to an ellipsis is fine; a
+   nine-character brand name rendered in 28px is a layout failure.
+
+   The thresholds are deliberately generous so that legitimate ellipsis
+   truncation does not register: an element must be BOTH under 45% of its
+   content width AND narrower than 60px before it counts. */
+async function squeezed(page) {
+  return page.evaluate(() => {
+    const out = [];
+    const name = (e) => e.tagName.toLowerCase() +
+      (e.id ? "#" + e.id : "") +
+      (typeof e.className === "string" && e.className ? "." + e.className.trim().split(/\s+/)[0] : "");
+
+    document.querySelectorAll("#view *, .topbar *, .tabbar *, .gs-head *").forEach((e) => {
+      const cs = getComputedStyle(e);
+      if (cs.display === "none" || cs.visibility === "hidden") return;
+      if (cs.overflowX !== "hidden" && cs.overflowX !== "clip") return;
+      if (!e.textContent || !e.textContent.trim()) return;
+      if (e.children.length) return;                  // leaf text nodes only
+      const w = e.getBoundingClientRect().width;
+      const need = e.scrollWidth;
+      if (need < 20) return;
+      if (w < need * 0.45 && w < 60) {
+        out.push(name(e) + ' shows ' + Math.round(w) + 'px of ' + need + 'px ("' +
+                 e.textContent.trim().slice(0, 24) + '")');
+      }
+    });
+    return out;
+  });
+}
+
 /* Horizontal overflow check — H6 in the addendum. */
 async function overflow(page) {
   return page.evaluate(() => {
@@ -142,4 +226,6 @@ function reporter(name) {
   };
 }
 
-module.exports = { ROOT, launch, goto, overflow, reporter, dismissModal, serve };
+module.exports = {
+  overlaps,
+  squeezed, ROOT, launch, goto, overflow, reporter, dismissModal, serve };

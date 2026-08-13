@@ -77,7 +77,20 @@ body {
 /* ─── top bar ────────────────────────────────────────────────────────── */
 .topbar {
   position: fixed; inset: 0 0 auto 0; height: var(--bar-h); z-index: 40;
-  display: grid; grid-template-columns: 40px auto 1fr 40px; align-items: center; gap: 6px;
+  /* minmax(0, …) on both middle tracks. Plain `auto` and `1fr` refuse to
+     shrink below their content, so on a narrow screen the tracks overflowed
+     the bar and the stat chips painted straight over the brand name. */
+  /* Two things the first version got wrong:
+       • plain `auto` and `1fr` refuse to shrink below their content, so the
+         tracks overflowed the bar and the stat chips painted over the brand;
+       • the Back button's 40px track stayed reserved even on screens where
+         the button is hidden, wasting 46px of a 360px bar.
+     min-content tracks collapse to zero when their item is display:none, and
+     the stats track is the one allowed to shrink first because the same
+     numbers are shown much more legibly on Play and You. */
+  display: grid;
+  grid-template-columns: min-content minmax(0, auto) minmax(0, 1fr) min-content;
+  align-items: center; gap: 6px;
   padding: 0 8px; padding-top: env(safe-area-inset-top, 0px);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-soft);
@@ -88,11 +101,28 @@ body {
   color: var(--ink-2); font-size: 20px; line-height: 1; cursor: pointer;
 }
 .tb-btn:active { background: var(--card-2); }
-.brand { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink); }
+.brand { display: flex; align-items: center; gap: 6px; text-decoration: none; color: var(--ink); min-width: 0; }
 .brand-mark { color: var(--accent); font-size: 20px; }
-.brand-name { font-weight: 700; letter-spacing: .2px; font-size: 16px; }
-@media (max-width: 380px) { .brand-name { display: none; } }
-.tb-stats { display: flex; gap: 5px; justify-content: flex-end; align-items: center; overflow: hidden; }
+.brand-name {
+  font-weight: 700; letter-spacing: .2px; font-size: 16px;
+  /* Truncate rather than vanish. The old rule hid the name outright below
+     380px, which is most phones in portrait. */
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+@media (max-width: 340px) { .brand-name { display: none; } }
+.tb-stats {
+  display: flex; gap: 5px; justify-content: flex-end; align-items: center;
+  min-width: 0; overflow: hidden;
+}
+/* Chips shrink before the bar does, and the XP chip — the widest and least
+   urgent of the three — is the first to go when there is genuinely no room. */
+.tb-stats .chip { flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
+/* The XP total is the first thing to go, and the breakpoint is high on
+   purpose: three chips plus a wordmark plus a menu button do not fit a
+   phone in portrait, and the alternative is a truncated brand or chips that
+   collide. Level and credits are the two a student actually glances at, and
+   the full XP figure has a permanent home on both Play and You. */
+@media (max-width: 430px) { .tb-stats .chip-xp { display: none; } }
 .chip {
   font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 999px;
   background: var(--card-2); color: var(--ink-2); border: 1px solid var(--line-soft); white-space: nowrap;

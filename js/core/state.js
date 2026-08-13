@@ -9,7 +9,7 @@
   var S = {};
 
   S.KEY = "equilibrium.save.v1";
-  S.BUILD = "0.1.0";
+  S.BUILD = "0.2.0";
 
   /* ── economy constants (brief §9) ────────────────────────────────── */
   S.XP_PER_CORRECT   = 10;      // × difficulty × streak multiplier

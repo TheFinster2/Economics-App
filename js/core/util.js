@@ -96,6 +96,21 @@
   /* ── formatting ──────────────────────────────────────────────────── */
   U.fmtInt = function (n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
 
+  /* Compact form for the top bar. A five-digit XP total rendered in full
+     ("284,500 XP") is wide enough to push the brand out of the header on a
+     360px phone, which is exactly what it did. Chips get this; everywhere
+     with room keeps fmtInt. */
+  U.fmtCompact = function (n) {
+    n = Math.round(n || 0);
+    var a = Math.abs(n);
+    if (a < 10000) return U.fmtInt(n);
+    if (a < 1000000) {
+      var k = n / 1000;
+      return (a < 100000 ? k.toFixed(1).replace(/\.0$/, "") : String(Math.round(k))) + "k";
+    }
+    return (n / 1000000).toFixed(1).replace(/\.0$/, "") + "m";
+  };
+
   U.fmtNum = function (n, dp) {
     if (!isFinite(n)) return String(n);
     var s = (dp === undefined) ? String(Math.round(n * 1e6) / 1e6) : n.toFixed(dp);

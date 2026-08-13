@@ -9,7 +9,7 @@
    js/core/state.js, and validate.js fails if a file exists that is not in
    PRECACHE. */
 
-var BUILD = "0.1.0";
+var BUILD = "0.2.0";
 var CACHE = "equilibrium-v" + BUILD;
 
 var PRECACHE = [
